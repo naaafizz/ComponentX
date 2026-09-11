@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "repository": "naaafizz/ComponentX",
   "defaultBranch": "main",
-  "generatedAt": "2026-09-11T20:20:58Z",
+  "generatedAt": "2026-09-11T20:23:38Z",
   "counts": {
     "components": 417,
     "families": 14,
@@ -43,8 +43,8 @@
     {
       "path": "bin/componentx.mjs",
       "install": "bin/componentx.mjs",
-      "size": 26471,
-      "sha256": "d8fcedc7305c2e687d75230db1532164b1c955c73830449801b492bc7f1a895b"
+      "size": 26996,
+      "sha256": "bcf27c3a6a928e877c1dea719b6f35942b67086210b02b20cd37e1186a2d4fb8"
     },
     {
       "path": "componentx.json",

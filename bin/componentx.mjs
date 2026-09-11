@@ -457,6 +457,19 @@ async function cmdUpdate(args) {
   const local = readOptionalJson(path.join(dir, "MANIFEST.json"));
   const { toFetch, toRemove } = diffManifests(local, remote);
 
+  // Self-heal: even when the two manifests agree, any tracked file whose
+  // on-disk bytes drifted (interrupted download, stale CDN edge, manual edit)
+  // is re-fetched so integrity is always restored by `update`.
+  const fetchSet = new Set(toFetch);
+  for (const file of remote.files) {
+    if (fetchSet.has(file)) continue;
+    const dest = path.join(dir, installDest(file));
+    if (!fs.existsSync(dest) || sha256File(dest) !== file.sha256) {
+      toFetch.push(file);
+      fetchSet.add(file);
+    }
+  }
+
   if (toFetch.length === 0 && toRemove.length === 0) {
     ok(`already up to date — v${remote.version}`);
     return;
