@@ -1,0 +1,4 @@
+# Byte-exact repo: no EOL conversion anywhere. The CLI verifies downloads
+# against sha256 hashes computed from these working-tree files, so raw
+#.githubusercontent blobs must byte-match the working copy.
+* -text
