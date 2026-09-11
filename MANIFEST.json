@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "repository": "naaafizz/ComponentX",
   "defaultBranch": "main",
-  "generatedAt": "2026-09-11T19:23:23Z",
+  "generatedAt": "2026-09-11T19:52:17Z",
   "counts": {
     "components": 417,
     "families": 14,
@@ -160,8 +160,8 @@
     },
     {
       "path": "README.md",
-      "size": 4127,
-      "sha256": "03f7983f1d7cd5358b60ab043a3cf383c1f95baf57a99225dcacc2fb887eae8d"
+      "size": 4423,
+      "sha256": "d3acedb4152f22d07ff9c1b110d1b069b0a5f13b2e25d508fdc55197c58b9b0a"
     },
     {
       "path": "SKILL.md",

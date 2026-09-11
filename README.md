@@ -2,83 +2,117 @@
 
 # ⚡ ComponentX
 
-**A premium, semantic, token-efficient component library for coding agents.**
+**The premium component & UI-theme skill for coding agents — installed with one command.**
 
-*417 hand-curated components · 14 semantic families · 4 quality tiers*
+*417 components · 14 semantic families · 23 design themes · auto-updating*
 
 </div>
 
-ComponentX is a next-generation component library built for **coding agents** — and for the humans who steer them. Every component ships as a self-contained Markdown file that an IDE or agent can route to in milliseconds: no giant catalogs to scan, no irrelevant walls of code to filter.
+## 🚀 Install
 
-## ✨ Highlights
+**Windows (PowerShell):**
 
-- **Type-first organization** — components live in semantic folders (`button/`, `card/`, `form/`, …), never in version-numbered buckets.
-- **417 components & counting** — from lightweight utilities to full 3D showcase builds.
-- **Quality as metadata** — every file declares a tier in its frontmatter: `lightweight`, `standard`, `advanced`, or `showcase`.
-- **Implementation-first docs** — the complete source is preserved inside every file, ready to read, port, and adapt.
-- **Token-efficient by design** — the [Agent Skill](SKILL.md) and the [Catalog](CATALOG.md) keep context small: *classify → search → shortlist → read → implement*.
-
-## 🗂 Structure
-
-```text
-components/
-├── 3d/            25 components → 3D, WebGL, and shader effects
-├── animation/     32 components → motion, hover, and scroll effects
-├── background/    24 components → gradients, beams, particles, and backdrops
-├── button/        76 components → buttons, badges, and action triggers
-├── card/          16 components → cards and content containers
-├── data-display/  17 components → tables, calendars, charts, and progress
-├── feedback/       4 components → alerts, toasts, and validation states
-├── form/         135 components → inputs, fields, and complete forms
-├── layout/         7 components → grids, spacing, and page structure
-├── loader/         7 components → spinners, skeletons, and loading states
-├── media/         13 components → carousels, galleries, and media players
-├── navigation/    35 components → navbars, menus, sidebars, and tabs
-├── overlay/       10 components → modals, dialogs, popovers, and tooltips
-└── text/          16 components → typography, text effects, and editors
+```powershell
+irm https://raw.githubusercontent.com/naaafizz/ComponentX/main/install.ps1 | iex
 ```
 
-## 🎨 Quality tiers
+**macOS / Linux (shell):**
 
-| Tier | Meaning |
-| :--- | :------ |
-| `lightweight` | Minimal footprint, zero-friction drop-in |
-| `standard` | Balanced, production-ready default |
-| `advanced` | Richer composition and interaction |
-| `showcase` | High-impact, animated, 3D, or dependency-heavy |
-
-## 🧭 Agent workflow
-
-**type → filename search → 1–3 candidates → read → implement**
-
-1. Infer the component type from the request.
-2. Open only `components/<type>/`.
-3. Search filenames and tags (the [catalog](CATALOG.md) lists every file).
-4. Shortlist 1–3 candidates.
-5. Read only those files.
-6. Inspect dependencies and imports, then adapt.
-
-## 🛠 Quick start
-
-The [catalog](CATALOG.md) is the front door: every entry deep-links to a complete component file. Each file ships an **agent contract**, an **overview** and **highlights**, the **full source implementation**, and guidance — so both agents and humans can move from request to working UI in one hop.
-
-### Example — a button
-
-```text
-components/button/button.md   → the classic Button (lightweight)
-components/button/*.md        → the full button family to shortlist from
+```bash
+curl -fsSL https://raw.githubusercontent.com/naaafizz/ComponentX/main/install.sh | sh
 ```
 
-## 🛡 Project safety
+**Requirements:** [Node.js](https://nodejs.org) 18+ — that's it. No dependencies, no build step.
 
-ComponentX respects the host project. Preserve its framework, styling conventions, dependencies, and file structure unless the task explicitly asks to change them. Components document their own dependencies — check imports before you wire anything in.
+### What install does
 
-## 📄 Files
+1. Downloads the full library + CLI into **`~/.componentx`** (every file sha256-verified against a signed manifest).
+2. Wires itself into your coding agents as a skill — **Claude Code, Cursor, Codex CLI, and Windsurf** are linked automatically (junction on Windows, symlink elsewhere).
+3. Prints a one-line PATH setup so the `componentx` command works everywhere:
 
-- [**Catalog**](CATALOG.md) — every component, one link per file
-- [**Agent Skill**](SKILL.md) — the discovery workflow for coding agents
-- [**README**](README.md) — you are here
+```powershell
+# Windows — then restart your terminal
+setx PATH "C:\Users\<you>\.componentx\bin;%PATH%"
+```
+
+```bash
+# macOS / Linux — add to ~/.zshrc or ~/.bashrc
+export PATH="$HOME/.componentx/bin:$PATH"
+```
+
+> Offline or behind a firewall? Install from a local checkout instead:
+> `node bin/componentx.mjs install --source /path/to/ComponentX`
+
+## 🔄 Keep it fresh
+
+New components and themes ship constantly. One command syncs everything — new, changed, and removed files, hash-verified:
+
+```bash
+componentx update
+```
+
+Update is smart: it diffs your install against the GitHub manifest and downloads **only what changed** (usually a few kB, not the whole library). Restart your coding agent afterwards to pick up new skills.
+
+## 🧰 CLI reference
+
+| Command | What it does |
+| :------ | :----------- |
+| `componentx install` | Install the library into `~/.componentx` + link your agents |
+| `componentx update` | Sync new / changed / removed files from GitHub |
+| `componentx status` | Show how far your install drifted from GitHub |
+| `componentx list` | Browse every component family and design theme |
+| `componentx link` | Re-wire the skill into agent config folders |
+| `componentx unlink` | Remove those agent links |
+| `componentx doctor` | Validate the install, PATH, and agent integration |
+| `componentx uninstall` | Remove `~/.componentx` entirely |
+
+Every command accepts `--dir <path>` for a custom install location.
+
+## 🧠 How your agent uses it
+
+Once installed, the skill is available to every linked coding agent. The agent never scans the library — it classifies your request, opens one semantic folder, reads 1–3 files, and implements:
+
+```text
+"add a pricing card"   →  components/card/   →  1–3 candidates  →  working UI
+```
+
+The full discovery workflow lives in the **[Agent Skill](SKILL.md)**, and every entry is indexed in the **[Catalog](CATALOG.md)**.
+
+## 🗂 What's inside
+
+```text
+~/.componentx/
+├── components/     417 components in 14 semantic folders
+│   ├── 3d/         3D, WebGL, and shader effects
+│   ├── form/       inputs, fields, and complete forms
+│   ├── button/     buttons, badges, and action triggers
+│   └── …           animation · card · navigation · overlay · …
+├── Designs/        23 complete design themes (premium visual languages)
+├── SKILL.md        the agent skill — discovery workflow
+├── CATALOG.md      every component, one deep link per file
+└── bin/            the componentx CLI (zero dependencies)
+```
+
+## 🛠 Maintainers: publishing updates
+
+Adding components is a three-step loop:
+
+```bash
+# 1. drop new .md files into components/<family>/ (or Designs/)
+# 2. rebuild the catalog + manifest
+node _tools/build.mjs
+# 3. commit and push — users get it on their next `componentx update`
+git add -A && git commit -m "add <component>" && git push
+```
+
+`_tools/build.mjs --check` guards CI: it exits non-zero if the catalog or manifest is stale.
+
+## 📄 Docs
+
+- [**Agent Skill**](SKILL.md) — how agents discover and use components
+- [**Catalog**](CATALOG.md) — the full index of every component and theme
+- [**Changelog**](CHANGELOG.md) — what's new in each version
 
 ---
 
-**ComponentX** · semantic, token-efficient components · Built to ship ✨
+**ComponentX** · semantic, token-efficient components · MIT licensed · Built to ship ✨
