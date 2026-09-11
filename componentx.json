@@ -1,0 +1,25 @@
+{
+  "name": "ComponentX",
+  "version": "1.0.0",
+  "description": "A premium, semantic, token-efficient frontend component and UI theme library for coding agents.",
+  "author": "naaafizz",
+  "license": "MIT",
+  "repository": "naaafizz/ComponentX",
+  "defaultBranch": "main",
+  "installDir": ".componentx",
+  "cli": {
+    "command": "componentx",
+    "runtime": "node >= 18",
+    "binDir": "bin"
+  },
+  "agents": {
+    "claude": ".claude/skills/componentx",
+    "cursor": ".cursor/skills/componentx",
+    "codex": ".codex/skills/componentx",
+    "windsurf": ".codeium/windsurf/skills/componentx"
+  },
+  "collections": {
+    "components": "components",
+    "themes": "Designs"
+  }
+}

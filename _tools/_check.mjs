@@ -1,0 +1,10 @@
+import * as fs from "node:fs";
+const b = fs.readFileSync("bin/componentx.mjs");
+const t = b.toString("utf8");
+let out = [];
+out.push("BOM=" + (b[0] === 0xef && b[1] === 0xbb ? "yes" : "no"));
+out.push("emoji=" + t.includes("\u26a1"));
+out.push("check=" + t.includes("\u2714"));
+out.push("repl=" + t.includes("\ufffd"));
+out.push("isWindows=" + t.includes("os.isWindows()"));
+process.stdout.write(out.join("\n") + "\n");

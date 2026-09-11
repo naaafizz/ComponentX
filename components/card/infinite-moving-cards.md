@@ -1,0 +1,214 @@
+---
+name: "Infinite Moving Cards"
+library: "ComponentX"
+id: "infinite-moving-cards"
+type: "card"
+quality: "showcase"
+tags: ["animation", "card", "image", "text"]
+load_policy: "Load only after this component is selected from CATALOG.md."
+---
+
+# ComponentX · Infinite Moving Cards
+
+> **Type:** `card` · **Quality:** `showcase` · **ID:** `infinite-moving-cards`
+> **Path:** `components/card/infinite-moving-cards.md`
+
+**Infinite Moving Cards** is a premium, production-ready component from the **ComponentX** library — engineered for card interfaces and shipped with a semantic, token-efficient API. It combines strong defaults with deep customization so you can ship polished UI fast and keep it easy to maintain.
+
+Every ComponentX component is designed to be **self-contained, inspectable, and adaptable**: read the complete source implementation below, note the dependencies, then drop the pattern into your existing stack and style system.
+
+## Highlights
+
+- **Showcase tier** — a high-impact, visually rich implementation — animated, 3D, or dependency-heavy by design.
+- **Semantic, token-efficient** — consistent naming and props across the ComponentX library.
+- **Pattern coverage** — includes `animation`, `card`, `image` workflows.
+- **Pattern coverage** — includes `text` workflows.
+- **Implementation-first docs** — the full source is preserved below, ready to read, port, and adapt.
+
+> **Use when:** the task calls for a **Infinite Moving Cards** or a matching UI pattern — prefer the implementation below over recreating it from memory.
+
+## Agent contract
+
+- Load this file only when it matches the task.
+- Inspect imports/file locations before changing project code.
+- Reuse the project's existing stack and utilities where compatible.
+- Keep dependencies and behavior intact unless the task asks for a change.
+- Do not load sibling components unless a direct dependency is required.
+
+## Source implementation
+
+File location: components/infinite-moving-cards-demo.tsx
+
+File content: "use client";
+
+import React, { useEffect, useState } from "react";
+import { InfiniteMovingCards } from "@/components/ui/infinite-moving-cards";
+
+export default function InfiniteMovingCardsDemo() {
+  return (
+    <div className="h-[40rem] rounded-md flex flex-col antialiased bg-white dark:bg-black dark:bg-grid-white/[0.05] items-center justify-center relative overflow-hidden">
+      <InfiniteMovingCards
+        items={testimonials}
+        direction="right"
+        speed="slow"
+      />
+    </div>
+  );
+}
+
+const testimonials = [
+  {
+    quote:
+      "It was the best of times, it was the worst of times, it was the age of wisdom, it was the age of foolishness, it was the epoch of belief, it was the epoch of incredulity, it was the season of Light, it was the season of Darkness, it was the spring of hope, it was the winter of despair.",
+    name: "Charles Dickens",
+    title: "A Tale of Two Cities",
+  },
+  {
+    quote:
+      "To be, or not to be, that is the question: Whether 'tis nobler in the mind to suffer The slings and arrows of outrageous fortune, Or to take Arms against a Sea of troubles, And by opposing end them: to die, to sleep.",
+    name: "William Shakespeare",
+    title: "Hamlet",
+  },
+  {
+    quote: "All that we see or seem is but a dream within a dream.",
+    name: "Edgar Allan Poe",
+    title: "A Dream Within a Dream",
+  },
+  {
+    quote:
+      "It is a truth universally acknowledged, that a single man in possession of a good fortune, must be in want of a wife.",
+    name: "Jane Austen",
+    title: "Pride and Prejudice",
+  },
+  {
+    quote:
+      "Call me Ishmael. Some years ago—never mind how long precisely—having little or no money in my purse, and nothing particular to interest me on shore, I thought I would sail about a little and see the watery part of the world.",
+    name: "Herman Melville",
+    title: "Moby-Dick",
+  },
+];
+
+
+File location: components/ui/infinite-moving-cards.tsx
+
+File content: "use client";
+
+import { cn } from "@/lib/utils";
+import React, { useEffect, useState } from "react";
+
+export const InfiniteMovingCards = ({
+  items,
+  direction = "left",
+  speed = "fast",
+  pauseOnHover = true,
+  className,
+}: {
+  items: {
+    quote: string;
+    name: string;
+    title: string;
+  }[];
+  direction?: "left" | "right";
+  speed?: "fast" | "normal" | "slow";
+  pauseOnHover?: boolean;
+  className?: string;
+}) => {
+  const containerRef = React.useRef<HTMLDivElement>(null);
+  const scrollerRef = React.useRef<HTMLUListElement>(null);
+
+  useEffect(() => {
+    addAnimation();
+  }, []);
+  const [start, setStart] = useState(false);
+  function addAnimation() {
+    if (containerRef.current && scrollerRef.current) {
+      const scrollerContent = Array.from(scrollerRef.current.children);
+
+      scrollerContent.forEach((item) => {
+        const duplicatedItem = item.cloneNode(true);
+        if (scrollerRef.current) {
+          scrollerRef.current.appendChild(duplicatedItem);
+        }
+      });
+
+      getDirection();
+      getSpeed();
+      setStart(true);
+    }
+  }
+  const getDirection = () => {
+    if (containerRef.current) {
+      if (direction === "left") {
+        containerRef.current.style.setProperty(
+          "--animation-direction",
+          "forwards",
+        );
+      } else {
+        containerRef.current.style.setProperty(
+          "--animation-direction",
+          "reverse",
+        );
+      }
+    }
+  };
+  const getSpeed = () => {
+    if (containerRef.current) {
+      if (speed === "fast") {
+        containerRef.current.style.setProperty("--animation-duration", "20s");
+      } else if (speed === "normal") {
+        containerRef.current.style.setProperty("--animation-duration", "40s");
+      } else {
+        containerRef.current.style.setProperty("--animation-duration", "80s");
+      }
+    }
+  };
+  return (
+    <div
+      ref={containerRef}
+      className={cn(
+        "scroller relative z-20 max-w-7xl overflow-hidden [mask-image:linear-gradient(to_right,transparent,white_20%,white_80%,transparent)]",
+        className,
+      )}
+    >
+      <ul
+        ref={scrollerRef}
+        className={cn(
+          "flex w-max min-w-full shrink-0 flex-nowrap gap-4 py-4",
+          start && "animate-scroll",
+          pauseOnHover && "hover:[animation-play-state:paused]",
+        )}
+      >
+        {items.map((item, idx) => (
+          <li
+            className="relative w-[350px] max-w-full shrink-0 rounded-2xl border border-b-0 border-zinc-200 bg-[linear-gradient(180deg,#fafafa,#f5f5f5)] px-8 py-6 md:w-[450px] dark:border-zinc-700 dark:bg-[linear-gradient(180deg,#27272a,#18181b)]"
+            key={item.name}
+          >
+            <blockquote>
+              <div
+                aria-hidden="true"
+                className="user-select-none pointer-events-none absolute -top-0.5 -left-0.5 -z-1 h-[calc(100%_+_4px)] w-[calc(100%_+_4px)]"
+              ></div>
+              <span className="relative z-20 text-sm leading-[1.6] font-normal text-neutral-800 dark:text-gray-100">
+                {item.quote}
+              </span>
+              <div className="relative z-20 mt-6 flex flex-row items-center">
+                <span className="flex flex-col gap-1">
+                  <span className="text-sm leading-[1.6] font-normal text-neutral-500 dark:text-gray-400">
+                    {item.name}
+                  </span>
+                  <span className="text-sm leading-[1.6] font-normal text-neutral-500 dark:text-gray-400">
+                    {item.title}
+                  </span>
+                </span>
+              </div>
+            </blockquote>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+};
+
+---
+
+[⬆ Back to the ComponentX Catalog](../../CATALOG.md) · Powered by **ComponentX** — semantic, token-efficient components

@@ -1,0 +1,4 @@
+#!/bin/sh
+# ComponentX CLI shim (macOS / Linux)
+CX_HOME="$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)"
+exec node "$CX_HOME/bin/componentx.mjs" "$@"

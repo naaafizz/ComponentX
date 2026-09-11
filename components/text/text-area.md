@@ -1,0 +1,212 @@
+---
+name: "Text Area"
+library: "ComponentX"
+id: "text-area"
+type: "text"
+quality: "lightweight"
+tags: ["feedback", "form", "input", "text"]
+load_policy: "Load only after this component is selected from CATALOG.md."
+---
+
+# ComponentX · Text Area
+
+> **Type:** `text` · **Quality:** `lightweight` · **ID:** `text-area`
+> **Path:** `components/text/text-area.md`
+
+**Text Area** is a premium, production-ready component from the **ComponentX** library — engineered for text interfaces and shipped with a semantic, token-efficient API. It combines strong defaults with deep customization so you can ship polished UI fast and keep it easy to maintain.
+
+Every ComponentX component is designed to be **self-contained, inspectable, and adaptable**: read the complete source implementation below, note the dependencies, then drop the pattern into your existing stack and style system.
+
+## Highlights
+
+- **Lightweight tier** — a minimal footprint, a small dependency surface, and a clean implementation that drops into any project with zero friction.
+- **Semantic, token-efficient** — consistent naming and props across the ComponentX library.
+- **Pattern coverage** — includes `feedback`, `form`, `input` workflows.
+- **Pattern coverage** — includes `text` workflows.
+- **Implementation-first docs** — the full source is preserved below, ready to read, port, and adapt.
+
+> **Use when:** the task calls for a **Text Area** or a matching UI pattern — prefer the implementation below over recreating it from memory.
+
+## Agent contract
+
+- Load this file only when it matches the task.
+- Inspect imports/file locations before changing project code.
+- Reuse the project's existing stack and utilities where compatible.
+- Keep dependencies and behavior intact unless the task asks for a change.
+- Do not load sibling components unless a direct dependency is required.
+
+## Source implementation
+
+---
+title: React TextArea Components
+description: A React TextArea component for multi-line text input. Built on the React Aria textarea primitive with ComponentX styling, validation states, controlled values, and accessible form handling.
+---
+
+import TextAreaControlledPreview from "@/components/preview/text-area/text-area-controlled-preview";
+import TextAreaDisabledPreview from "@/components/preview/text-area/text-area-disabled-preview";
+import TextAreaPreview from "@/components/preview/text-area/text-area-preview";
+import TextAreaUncontrolledPreview from "@/components/preview/text-area/text-area-uncontrolled-preview";
+import TextAreaRowsPreview from "@/components/preview/text-area/text-area-rows-preview";
+import TextAreaStatesPreview from "@/components/preview/text-area/text-area-states-preview";
+import TextAreaWithValidationPreview from "@/components/preview/text-area/text-area-with-validation-preview";
+import TextAreaWithHintPreview from "@/components/preview/text-area/text-area-with-hint-preview";
+import { getFileContent } from "@/utils/get-file-content";
+import { Accordion, Accordions } from "componentx-ui/components/accordion";
+
+# Text Area
+
+React Text Area components are used to collect longer, multi-line text input from users. They are commonly used for messages, descriptions, feedback forms, comments, and notes where a single-line input is not sufficient.
+
+<ComponentPreview
+  codeSnippet={getFileContent(
+    "/src/components/preview/text-area/text-area-preview.tsx"
+  )}
+>
+  <TextAreaPreview />
+</ComponentPreview>
+
+## Anatomy
+
+Import the component and pass the required props.
+
+```tsx
+import { TextArea } from "@/components/componentx/core/text-area";
+
+export default function TextAreaExample() {
+  return (
+    <TextArea name="message" placeholder="Write your message..." rows={5} />
+  );
+}
+```
+
+## Examples
+
+### Basic Usage
+
+Compose the `TextArea` component with a `Label` and optional `Description` for a complete form field.
+
+<ComponentPreview
+  codeSnippet={getFileContent(
+    "/src/components/preview/text-area/text-area-with-hint-preview.tsx"
+  )}
+  highlightLines={[12, [14, 16]]}
+>
+  <TextAreaWithHintPreview />
+</ComponentPreview>
+
+### Controlled
+
+Create a controlled textarea by passing `value` and `onChange` props to manage the input state externally.
+
+<ComponentPreview
+  codeSnippet={getFileContent(
+    "/src/components/preview/text-area/text-area-controlled-preview.tsx"
+  )}
+  highlightLines={[20, 21]}
+>
+  <TextAreaControlledPreview />
+</ComponentPreview>
+
+### Uncontrolled
+
+Add `defaultValue` prop to the container field to pass an initial value.
+
+<ComponentPreview
+  codeSnippet={getFileContent(
+    "/src/components/preview/text-area/text-area-uncontrolled-preview.tsx"
+  )}
+  highlightLines={[9]}
+>
+  <TextAreaUncontrolledPreview />
+</ComponentPreview>
+
+**Note:** React Aria manages inputs through context, so the `defaultValue` prop must be passed to the container field (`TextField`) rather than the `TextArea` itself for uncontrolled usage.
+
+### States
+
+Pass `state` for visual variants like `error` and `success`. Use the `Description` or `FieldError` component to provide feedback messages for each state.
+
+<ComponentPreview
+  codeSnippet={getFileContent(
+    "/src/components/preview/text-area/text-area-states-preview.tsx"
+  )}
+  highlightLines={[21, 33]}
+>
+  <TextAreaStatesPreview />
+</ComponentPreview>
+
+### Disabled
+
+Prevent user interaction and reflect an inactive state by setting the `disabled` prop to `true`.
+
+<ComponentPreview
+  codeSnippet={getFileContent(
+    "/src/components/preview/text-area/text-area-disabled-preview.tsx"
+  )}
+  highlightWords={["disabled"]}
+>
+  <TextAreaDisabledPreview />
+</ComponentPreview>
+
+**Note:** `disabled` prop can be passed to either the `TextArea` or the container field (`TextField`) to disable the entire field.
+
+### Rows
+
+Control the visible row count with the native `rows` prop.
+
+<ComponentPreview
+  codeSnippet={getFileContent(
+    "/src/components/preview/text-area/text-area-rows-preview.tsx"
+  )}
+  highlightLines={[14]}
+>
+  <TextAreaRowsPreview />
+</ComponentPreview>
+
+### With Validation
+
+Validation can be implemented through the container field (`TextField`) using the `validate` prop. The `invalid` prop can also be used to manually set the error state.
+
+<ComponentPreview
+  codeSnippet={getFileContent(
+    "/src/components/preview/text-area/text-area-with-validation-preview.tsx"
+  )}
+  highlightLines={[
+    [27, 32],
+    [44, 46]
+  ]}
+>
+  <TextAreaWithValidationPreview />
+</ComponentPreview>
+
+## API Reference
+
+### TextArea
+
+Extends the native `textarea` element props and the React Aria textarea primitive props.
+
+| Prop           | Type                                | Default     | Description                                                                 |
+| -------------- | ----------------------------------- | ----------- | --------------------------------------------------------------------------- |
+| `state`        | `'default' \| 'error' \| 'success'` | `'default'` | ComponentX visual state variant.                                             |
+| `value`        | `string`                            | `-`         | Controlled textarea value.                                                  |
+| `defaultValue` | `string`                            | `-`         | Uncontrolled initial value. (Not encouraged to use. Use on field container) |
+| `onChange`     | `(value: string) => void`           | `-`         | Called when the value changes.                                              |
+| `rows`         | `number`                            | `4`         | Native textarea row count.                                                  |
+| `name`         | `string`                            | `-`         | Name used when submitting a form.                                           |
+| `placeholder`  | `string`                            | `-`         | Hint text shown when the field is empty.                                    |
+| `disabled`     | `boolean`                           | `false`     | Disables the textarea programmatically.                                     |
+| `readOnly`     | `boolean`                           | `false`     | Prevents editing while keeping the value selectable.                        |
+| `required`     | `boolean`                           | `false`     | Marks the field as required by native form validation.                      |
+| `className`    | `string`                            | `-`         | Additional classes for customization.                                       |
+
+## Accessibility
+
+- Use a visible `Label` element when the field needs an accessible name.
+- Use a description slot or helper text for supplemental guidance.
+- The textarea remains a semantic `<textarea>` element and supports native keyboard interaction.
+- Disabled, read-only, and invalid states are communicated visually and programmatically.
+- When used inside a React Aria `Form`, validation can be driven by `validationBehavior`, `required`, and custom validation logic.
+
+---
+
+[⬆ Back to the ComponentX Catalog](../../CATALOG.md) · Powered by **ComponentX** — semantic, token-efficient components

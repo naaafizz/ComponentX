@@ -1,0 +1,202 @@
+---
+name: "Chart"
+library: "ComponentX"
+id: "chart"
+type: "data-display"
+quality: "advanced"
+tags: ["chart", "data"]
+load_policy: "Load only after this component is selected from CATALOG.md."
+---
+
+# ComponentX · Chart
+
+> **Type:** `data-display` · **Quality:** `advanced` · **ID:** `chart`
+> **Path:** `components/data-display/chart.md`
+
+**Chart** is a premium, production-ready component from the **ComponentX** library — engineered for data display interfaces and shipped with a semantic, token-efficient API. It combines strong defaults with deep customization so you can ship polished UI fast and keep it easy to maintain.
+
+Every ComponentX component is designed to be **self-contained, inspectable, and adaptable**: read the complete source implementation below, note the dependencies, then drop the pattern into your existing stack and style system.
+
+## Highlights
+
+- **Advanced tier** — richer composition and interaction, engineered for complex layouts while keeping the public surface tight.
+- **Semantic, token-efficient** — consistent naming and props across the ComponentX library.
+- **Pattern coverage** — includes `chart`, `data` workflows.
+- **Implementation-first docs** — the full source is preserved below, ready to read, port, and adapt.
+
+> **Use when:** the task calls for a **Chart** or a matching UI pattern — prefer the implementation below over recreating it from memory.
+
+## Agent contract
+
+- Load this file only when it matches the task.
+- Inspect imports/file locations before changing project code.
+- Reuse the project's existing stack and utilities where compatible.
+- Keep dependencies and behavior intact unless the task asks for a change.
+- Do not load sibling components unless a direct dependency is required.
+
+## Source implementation
+
+---
+title: React Chart Components
+description: A React chart component built with Tailwind CSS and Recharts. Create line, bar, area, and pie charts with responsive layouts, tooltips, and legends.
+---
+
+import ChartBarPreview from "@/components/preview/chart/chart-bar-preview";
+import ChartLinePreview from "@/components/preview/chart/chart-line-preview";
+import ChartPiePreview from "@/components/preview/chart/chart-pie-preview";
+import ChartPreview from "@/components/preview/chart/chart-preview";
+import ChartZoomableAreaPreview from "@/components/preview/chart/chart-zoomable-area-preview";
+import { getFileContent } from "@/utils/get-file-content";
+import { Accordion, Accordions } from "componentx-ui/components/accordion";
+
+# Chart
+
+The React Chart component helps you build charts and data visualizations in your app. It works with the Recharts library and adds Tailwind CSS styling for a clean and consistent look.
+
+You can use it to display data as line, bar, area, or pie charts. For example, you can show sales data, user growth, or performance metrics in a visual format.
+
+Built with React and [Recharts](https://recharts.org/), it supports responsive charts, custom tooltips, legends, and flexible styling using Tailwind CSS.
+
+<ComponentPreview
+  codeSnippet={getFileContent(
+    "/src/components/preview/chart/chart-preview.tsx"
+  )}
+>
+  <ChartPreview />
+</ComponentPreview>
+
+## Anatomy
+
+Import the component and build your chart by combining Recharts components with our custom wrappers.
+
+```tsx
+import {
+  ChartContainer,
+  ChartLegend,
+  ChartLegendContent,
+  ChartTooltip,
+  ChartTooltipContent
+} from "@/components/componentx/core/chart";
+import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts";
+
+export const ChartExample = () => {
+  const data = [
+    { name: "Jan", uv: 400 },
+    { name: "Feb", uv: 300 }
+  ];
+
+  return (
+    <ChartContainer initialDimension={{ width: 280, height: 160 }}>
+      <AreaChart data={data}>
+        <CartesianGrid vertical={false} />
+        <XAxis dataKey="name" />
+        <YAxis />
+        <ChartTooltip content={<ChartTooltipContent indicator="square" />} />
+        <ChartLegend content={<ChartLegendContent />} />
+        <Area dataKey="uv" stroke="#3758F9" fill="#3758F9" />
+      </AreaChart>
+    </ChartContainer>
+  );
+};
+```
+
+## Examples
+
+### Line Chart
+
+A line chart showing multiple data series.
+
+<ComponentPreview
+  codeSnippet={getFileContent(
+    "/src/components/preview/chart/chart-line-preview.tsx"
+  )}
+>
+  <ChartLinePreview />
+</ComponentPreview>
+
+### Zoomable Area Chart
+
+An area chart that supports brushing to zoom into specific data ranges.
+
+<ComponentPreview
+  codeSnippet={getFileContent(
+    "/src/components/preview/chart/chart-zoomable-area-preview.tsx"
+  )}
+>
+  <ChartZoomableAreaPreview />
+</ComponentPreview>
+
+### Bar Chart
+
+A bar chart displaying grouped data comparisons.
+
+<ComponentPreview
+  codeSnippet={getFileContent(
+    "/src/components/preview/chart/chart-bar-preview.tsx"
+  )}
+>
+  <ChartBarPreview />
+</ComponentPreview>
+
+### Pie Chart
+
+A pie chart rendering simple part-to-whole relationships.
+
+<ComponentPreview
+  codeSnippet={getFileContent(
+    "/src/components/preview/chart/chart-pie-preview.tsx"
+  )}
+>
+  <ChartPiePreview />
+</ComponentPreview>
+
+## API Reference
+
+The Chart components are thin wrappers around Recharts. For complete API details on charts, axes, and shapes, please refer to the [Recharts API Guide](https://recharts.github.io/en-US/api/).
+
+### ChartContainer
+
+| Prop               | Type                                | Default | Description                                                                         |
+| :----------------- | :---------------------------------- | :------ | :---------------------------------------------------------------------------------- |
+| `children`         | `React.ReactNode`                   | -       | The Recharts chart components (e.g., `AreaChart`, `BarChart`) to render inside.     |
+| `className`        | `string`                            | -       | Additional CSS classes applied to the underlying `ResponsiveContainer`.             |
+| `initialDimension` | `{ width: number, height: number }` | -       | Initial dimensions before hydration or when responsive width is not yet calculated. |
+
+**Note:** `initialDimension` is required for the chart to render properly. If you don't provide it, you might get warning at the console.
+
+### ChartTooltipContent
+
+Extends Recharts `TooltipContentProps`.
+
+| Prop             | Type                               | Default | Description                                                              |
+| :--------------- | :--------------------------------- | :------ | :----------------------------------------------------------------------- |
+| `indicator`      | `'dot' \| 'line' \| 'square'`      | `'dot'` | The shape of the indicator next to legend/tooltip items.                 |
+| `hideLabel`      | `boolean`                          | `false` | Whether to hide the top label (usually the X-axis value) in the tooltip. |
+| `hideIndicator`  | `boolean`                          | `false` | Whether to hide the color indicator shape completely.                    |
+| `labelClassName` | `string`                           | -       | Additional CSS classes for the tooltip label.                            |
+| `formatter`      | `(value, name, item, index) => {}` | -       | Custom formatter for the tooltip values.                                 |
+| `labelFormatter` | `(label, payload) => {}`           | -       | Custom formatter for the tooltip label.                                  |
+| `className`      | `string`                           | -       | Additional CSS classes for the tooltip container.                        |
+
+### ChartLegendContent
+
+Extends Recharts `DefaultLegendContentProps`.
+
+| Prop            | Type      | Default | Description                                                     |
+| :-------------- | :-------- | :------ | :-------------------------------------------------------------- |
+| `hideIndicator` | `boolean` | `false` | Whether to hide the color indicator shape next to legend items. |
+| `className`     | `string`  | -       | Additional CSS classes for the legend container.                |
+
+The Chart components are designed with accessibility in mind, ensuring that data visualizations are perceivable and navigable.
+
+## Accessibility
+
+- **Focus management:** The chart can receive focus and shows clear visual indicators when it is active.
+- **Screen reader support:** Tooltips and legends help screen readers describe data values.
+- **Data clarity:** Use clear labels, legends, and axis titles so users can easily understand the data.
+- **Visual distinction:** Different colors and indicator styles (dot, line, square) help users distinguish between data series.
+- **ARIA support:** The chart uses accessible SVG elements and roles provided by Recharts.
+
+---
+
+[⬆ Back to the ComponentX Catalog](../../CATALOG.md) · Powered by **ComponentX** — semantic, token-efficient components

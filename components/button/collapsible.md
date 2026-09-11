@@ -1,0 +1,239 @@
+---
+name: "Collapsible"
+library: "ComponentX"
+id: "collapsible"
+type: "button"
+quality: "standard"
+tags: ["button", "component", "data"]
+load_policy: "Load only after this component is selected from CATALOG.md."
+---
+
+# ComponentX · Collapsible
+
+> **Type:** `button` · **Quality:** `standard` · **ID:** `collapsible`
+> **Path:** `components/button/collapsible.md`
+
+**Collapsible** is a premium, production-ready component from the **ComponentX** library — engineered for button interfaces and shipped with a semantic, token-efficient API. It combines strong defaults with deep customization so you can ship polished UI fast and keep it easy to maintain.
+
+Every ComponentX component is designed to be **self-contained, inspectable, and adaptable**: read the complete source implementation below, note the dependencies, then drop the pattern into your existing stack and style system.
+
+## Highlights
+
+- **Standard tier** — a balanced, production-ready implementation with sensible defaults and a documented, stable API.
+- **Semantic, token-efficient** — consistent naming and props across the ComponentX library.
+- **Pattern coverage** — includes `button`, `data` workflows.
+- **Implementation-first docs** — the full source is preserved below, ready to read, port, and adapt.
+
+> **Use when:** the task calls for a **Collapsible** or a matching UI pattern — prefer the implementation below over recreating it from memory.
+
+## Agent contract
+
+- Load this file only when it matches the task.
+- Inspect imports/file locations before changing project code.
+- Reuse the project's existing stack and utilities where compatible.
+- Keep dependencies and behavior intact unless the task asks for a change.
+- Do not load sibling components unless a direct dependency is required.
+
+## Source implementation
+
+---
+title: React Collapsible Components
+description: A React collapsible component built with Tailwind CSS. Show or hide content with expandable sections, toggle panels, with simple and accessible interactions.
+---
+
+import CollapsibleControlledPreview from "@/components/preview/collapsible/collapsible-controlled-preview";
+import CollapsibleDefaultOpenPreview from "@/components/preview/collapsible/collapsible-default-open-preview";
+import CollapsibleDisabledPreview from "@/components/preview/collapsible/collapsible-disabled-preview";
+import CollapsibleInteractivePreview from "@/components/preview/collapsible/collapsible-interactive-preview";
+import CollapsibleOrderSummeryPreview from "@/components/preview/collapsible/collapsible-order-summery-preview";
+import CollapsiblePreview from "@/components/preview/collapsible/collapsible-preview";
+import CollapsibleWithIconPreview from "@/components/preview/collapsible/collapsible-with-icon-preview";
+import { getFileContent } from "@/utils/get-file-content";
+import { Accordion, Accordions } from "componentx-ui/components/accordion";
+
+# Collapsible
+
+The React Collapsible component lets users show or hide content by clicking a trigger. It is used to expand and collapse sections without leaving the page.
+
+It helps keep the UI clean by hiding details until needed. For example, users can click to view order details, logs, or settings only when required.
+
+This component is built on top of **React Aria's `Disclosure`** primitive and styled using Tailwind CSS. It gives built-in focus management, proper ARIA attributes, and keyboard interaction out of the box.
+
+<ComponentPreview
+  codeSnippet={getFileContent(
+    "/src/components/preview/collapsible/collapsible-preview.tsx"
+  )}
+>
+  <CollapsiblePreview />
+</ComponentPreview>
+
+## Anatomy
+
+Import the three composable parts and assemble them.
+
+```tsx
+import {
+  Collapsible,
+  CollapsibleTrigger,
+  CollapsibleContent
+} from "@/components/collapsible";
+
+export default function CollapsibleAnatomy() {
+  return (
+    <Collapsible>
+      <CollapsibleTrigger />
+      <CollapsibleContent />
+    </Collapsible>
+  );
+}
+```
+
+## Usage
+
+Import the three composable parts and assemble them.
+
+```tsx
+import {
+  Collapsible,
+  CollapsibleTrigger,
+  CollapsibleContent
+} from "@/components/componentx/core/collapsible";
+
+export default function Example() {
+  return (
+    <Collapsible>
+      <CollapsibleTrigger>Can I use this in my project?</CollapsibleTrigger>
+      <CollapsibleContent>
+        Yes. Free to use for personal and commercial projects. No attribution
+        required.
+      </CollapsibleContent>
+    </Collapsible>
+  );
+}
+```
+
+## Examples
+
+### Controlled
+
+The collapsible component can be controlled using `isExpanded` and `onExpandedChange`. In this example, we show an error summary with a "Stack trace" section that can be toggled open to reveal more details.
+
+<ComponentPreview
+  codeSnippet={getFileContent(
+    "/src/components/preview/collapsible/collapsible-controlled-preview.tsx"
+  )}
+>
+  <CollapsibleControlledPreview />
+</ComponentPreview>
+
+### Default Open
+
+By default, the collapsible component is closed. You can open it by default using `defaultExpanded` prop on `Collapsible` component.
+
+<ComponentPreview
+  codeSnippet={getFileContent(
+    "/src/components/preview/collapsible/collapsible-default-open-preview.tsx"
+  )}
+>
+  <CollapsibleDefaultOpenPreview />
+</ComponentPreview>
+
+### Disabled
+
+You can use `isDisabled` to prevent the user from expanding or collapsing the panel.
+
+<ComponentPreview
+  codeSnippet={getFileContent(
+    "/src/components/preview/collapsible/collapsible-disabled-preview.tsx"
+  )}
+>
+  <CollapsibleDisabledPreview />
+</ComponentPreview>
+
+### Order Summery
+
+<ComponentPreview
+  codeSnippet={getFileContent(
+    "/src/components/preview/collapsible/collapsible-order-summery-preview.tsx"
+  )}
+>
+  <CollapsibleOrderSummeryPreview />
+</ComponentPreview>
+
+### With Icon
+
+<ComponentPreview
+  codeSnippet={getFileContent(
+    "/src/components/preview/collapsible/collapsible-with-icon-preview.tsx"
+  )}
+>
+  <CollapsibleWithIconPreview />
+</ComponentPreview>
+
+### Interactive
+
+You can create a fully interactive collapsible component using the `Collapsible` component.
+
+<ComponentPreview
+  codeSnippet={getFileContent(
+    "/src/components/preview/collapsible/collapsible-interactive-preview.tsx"
+  )}
+>
+  <CollapsibleInteractivePreview />
+</ComponentPreview>
+
+## API Reference
+
+### Collapsible
+
+The root component. Wraps React Aria's `Disclosure` and accepts all its props.
+
+| Prop               | Type                            | Default | Description                                                  |
+| :----------------- | :------------------------------ | :------ | :----------------------------------------------------------- |
+| `isExpanded`       | `boolean`                       | —       | Controlled expanded state                                    |
+| `defaultExpanded`  | `boolean`                       | `false` | Default expanded state (uncontrolled)                        |
+| `onExpandedChange` | `(isExpanded: boolean) => void` | —       | Called when the expanded state changes                       |
+| `isDisabled`       | `boolean`                       | `false` | Prevents the user from expanding or collapsing               |
+| `id`               | `Key`                           | —       | ID for use within a `DisclosureGroup`                        |
+| `className`        | `string`                        | —       | Additional CSS classes merged onto the root element          |
+| `children`         | `ReactNode`                     | —       | Should contain `CollapsibleTrigger` and `CollapsibleContent` |
+
+| Data attribute              | Values    | Description                                     |
+| :-------------------------- | :-------- | :---------------------------------------------- |
+| `data-expanded`             | `boolean` | Set when the panel is expanded                  |
+| `data-disabled`             | `boolean` | Set when `isDisabled` is `true`                 |
+| `data-focus-visible-within` | `boolean` | Set when keyboard focus is inside the component |
+
+### CollapsibleTrigger
+
+The heading + button element that toggles the panel. Renders a semantic heading wrapping a `<button slot="trigger">`.
+
+| Prop        | Type                         | Default | Description                                                  |
+| :---------- | :--------------------------- | :------ | :----------------------------------------------------------- |
+| `level`     | `1 \| 2 \| 3 \| 4 \| 5 \| 6` | `3`     | HTML heading level rendered around the trigger button        |
+| `className` | `string`                     | —       | Additional CSS classes applied to the trigger button         |
+| `children`  | `ReactNode`                  | —       | Trigger label — anything rendered to the left of the chevron |
+
+### CollapsibleContent
+
+The collapsible panel that shows content when the trigger is activated. Maps to React Aria's `DisclosurePanel`.
+
+| Prop        | Type        | Default | Description                                     |
+| :---------- | :---------- | :------ | :---------------------------------------------- |
+| `className` | `string`    | —       | Additional CSS classes applied to the panel     |
+| `children`  | `ReactNode` | —       | Content to display when the collapsible is open |
+
+The panel is hidden from the accessibility tree when collapsed. React Aria handles the `hidden` attribute automatically.
+
+## Accessibility
+
+- **Keyboard support:** Users can press `Enter` or `Space` on the trigger to expand or collapse the content.
+- **Focus management:** The trigger can receive focus, and focus styles appear when navigating with the keyboard.
+- **ARIA behavior:** The component automatically manages expanded (`aria-expanded`) and collapsed states so screen readers know when content is visible.
+- **Semantic structure:** The trigger is rendered as a button within a heading, helping screen readers understand the content hierarchy.
+- **Content visibility:** When collapsed, the content is hidden from assistive technologies and becomes available when expanded.
+- **Disabled state:** When `disabled`, the trigger cannot be focused or activated.
+
+---
+
+[⬆ Back to the ComponentX Catalog](../../CATALOG.md) · Powered by **ComponentX** — semantic, token-efficient components

@@ -1,0 +1,278 @@
+---
+name: "Avatar"
+library: "ComponentX"
+id: "avatar-2"
+type: "navigation"
+quality: "lightweight"
+tags: ["animated", "animation", "background", "component", "data", "image", "layout", "loading", "text"]
+load_policy: "Load only after this component is selected from CATALOG.md."
+---
+
+# ComponentX · Avatar
+
+> **Type:** `navigation` · **Quality:** `lightweight` · **ID:** `avatar-2`
+> **Path:** `components/navigation/avatar-2.md`
+
+**Avatar** is a premium, production-ready component from the **ComponentX** library — engineered for navigation interfaces and shipped with a semantic, token-efficient API. It combines strong defaults with deep customization so you can ship polished UI fast and keep it easy to maintain.
+
+Every ComponentX component is designed to be **self-contained, inspectable, and adaptable**: read the complete source implementation below, note the dependencies, then drop the pattern into your existing stack and style system.
+
+## Highlights
+
+- **Lightweight tier** — a minimal footprint, a small dependency surface, and a clean implementation that drops into any project with zero friction.
+- **Semantic, token-efficient** — consistent naming and props across the ComponentX library.
+- **Pattern coverage** — includes `animated`, `animation`, `background` workflows.
+- **Pattern coverage** — includes `data`, `image`, `layout` workflows.
+- **Pattern coverage** — includes `loading`, `text` workflows.
+- **Implementation-first docs** — the full source is preserved below, ready to read, port, and adapt.
+
+> **Use when:** the task calls for a **Avatar** or a matching UI pattern — prefer the implementation below over recreating it from memory.
+
+## Agent contract
+
+- Load this file only when it matches the task.
+- Inspect imports/file locations before changing project code.
+- Reuse the project's existing stack and utilities where compatible.
+- Keep dependencies and behavior intact unless the task asks for a change.
+- Do not load sibling components unless a direct dependency is required.
+
+## Source implementation
+
+---
+title: React Avatar Components
+description: A React avatar component built on Base UI for showing user profile images, initials, or fallback icons. Used to represent people, teams, or accounts with optional status indicators and group layouts.
+---
+
+import AvatarGroupPreview from "@/components/preview/avatar/avatar-group-preview";
+import AvatarGroupWithCountPreview from "@/components/preview/avatar/avatar-group-with-count";
+import AvatarLabelPreview from "@/components/preview/avatar/avatar-label-preview";
+import AvatarPreview from "@/components/preview/avatar/avatar-preview";
+import AvatarSizesPreview from "@/components/preview/avatar/avatar-sizes-preview";
+import AvatarStatusIndicatorPreview from "@/components/preview/avatar/avatar-status-indicator-preview";
+import AvatarStatusWithIndicatorAnimation from "@/components/preview/avatar/avatar-status-with-indicator-animation";
+import { getFileContent } from "@/utils/get-file-content";
+import { Accordion, Accordions } from "componentx-ui/components/accordion";
+
+# Avatar
+
+React Avatar components are used to display user profile images, initials, or general fallback content. They are commonly used in user profiles, comment lists, team members, and account menus.
+
+This Avatar component is built with React and styled using Tailwind CSS, giving developers control over size, layout, and presentation. It supports various sizes, user status indicators, an optional name/email label group, and overlapping avatar groups.
+
+<ComponentPreview
+  codeSnippet={getFileContent(
+    "/src/components/preview/avatar/avatar-preview.tsx"
+  )}
+>
+  <AvatarPreview />
+</ComponentPreview>
+
+## Anatomy
+
+Import the component parts and combine them.
+
+```tsx
+import {
+  Avatar,
+  AvatarImage,
+  AvatarFallback,
+  AvatarBadge
+} from "@/components/componentx/core/avatar";
+
+export const AvatarExample = () => (
+  <Avatar size="md">
+    <AvatarImage
+      src="path/to/image.jpg"
+      alt="Profile picture of Random Person"
+    />
+    <AvatarFallback>JD</AvatarFallback>
+    <AvatarBadge status="online" />
+  </Avatar>
+);
+```
+
+## Examples
+
+### Sizes
+
+The Avatar component supports six predefined sizes: `xs`, `sm`, `md`, `lg`, `xl`, and `xxl`.
+
+<ComponentPreview
+  codeSnippet={getFileContent(
+    "/src/components/preview/avatar/avatar-sizes-preview.tsx"
+  )}
+  highlightLines={[8]}
+>
+  <AvatarSizesPreview />
+</ComponentPreview>
+
+### Status
+
+Show predefined status indicator with `online`, `offline`, and `busy` on `<AvatarBadge>`. Omit the badge to render an avatar without a status indicator.
+
+<ComponentPreview
+  codeSnippet={getFileContent(
+    "/src/components/preview/avatar/avatar-status-indicator-preview.tsx"
+  )}
+  highlightLines={[16]}
+>
+
+  <AvatarStatusIndicatorPreview />
+</ComponentPreview>
+
+**Note:**
+The `status` indicator uses a white `ring` to visually separate it from the avatar's background.
+
+### Animated Status
+
+Set `ping` on `<AvatarBadge>` to animate the status indicator.
+
+<ComponentPreview
+  codeSnippet={getFileContent(
+    "/src/components/preview/avatar/avatar-status-with-indicator-animation.tsx"
+  )}
+  highlightWords={["ping"]}
+>
+  <AvatarStatusWithIndicatorAnimation />
+</ComponentPreview>
+
+### Label
+
+Wrap an `<Avatar>` with a name and subtitle inside a `<figure>` to associate the visual with descriptive text.
+
+<ComponentPreview
+  codeSnippet={getFileContent(
+    "/src/components/preview/avatar/avatar-label-preview.tsx"
+  )}
+>
+  <AvatarLabelPreview />
+</ComponentPreview>
+
+### Avatar Group
+
+Multiple avatars can be displayed in a group using the `<AvatarGroup>` component. Avatars overlap using negative margin and stack via a shared background ring.
+
+<ComponentPreview
+  codeSnippet={getFileContent(
+    "/src/components/preview/avatar/avatar-group-preview.tsx"
+  )}
+  highlightLines={[11, 23]}
+>
+  <AvatarGroupPreview />
+</ComponentPreview>
+
+### Group with Count
+
+Use `<AvatarGroupCount>` to display an overflow indicator for the group.
+
+<ComponentPreview
+  codeSnippet={getFileContent(
+    "/src/components/preview/avatar/avatar-group-with-count.tsx"
+  )}
+  highlightLines={[24]}
+>
+  <AvatarGroupWithCountPreview />
+</ComponentPreview>
+
+## API Reference
+
+### Avatar
+
+The root container for an avatar. Wraps an image, fallback, and optional badge.
+
+| Prop        | Type                                            | Default | Description                                    |
+| :---------- | :---------------------------------------------- | :------ | :--------------------------------------------- |
+| `size`      | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl' \| 'xxl'` | `'md'`  | Sets the size of the avatar                    |
+| `className` | `string`                                        | -       | Additional CSS classes to apply to the root    |
+| `children`  | `React.ReactNode`                               | -       | `AvatarImage`, `AvatarFallback`, `AvatarBadge` |
+
+| Data Attribute | Values                                          | Description                        |
+| :------------- | :---------------------------------------------- | :--------------------------------- |
+| `data-slot`    | `'avatar'`                                      | Identifies the avatar root element |
+| `data-size`    | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl' \| 'xxl'` | Reflects the current `size` prop   |
+
+### AvatarImage
+
+Renders the avatar's image. Falls back to `AvatarFallback` while loading or on error.
+
+| Prop        | Type     | Description                                |
+| :---------- | :------- | :----------------------------------------- |
+| `className` | `string` | Additional CSS classes                     |
+| `src`       | `string` | Image URL (passed to the underlying `img`) |
+| `alt`       | `string` | Image alt text for accessibility           |
+
+| Data Attribute | Values           | Description                 |
+| :------------- | :--------------- | :-------------------------- |
+| `data-slot`    | `'avatar-image'` | Identifies the avatar image |
+
+### AvatarFallback
+
+Rendered when the image is loading or has failed. Typically holds initials.
+
+| Prop        | Type              | Description                      |
+| :---------- | :---------------- | :------------------------------- |
+| `className` | `string`          | Additional CSS classes           |
+| `children`  | `React.ReactNode` | Fallback content (e.g. initials) |
+
+| Data Attribute | Values              | Description                    |
+| :------------- | :------------------ | :----------------------------- |
+| `data-slot`    | `'avatar-fallback'` | Identifies the avatar fallback |
+
+### AvatarBadge
+
+Displays a status indicator at the bottom-right corner of the avatar.
+
+| Prop        | Type                                            | Default    | Description                                                            |
+| :---------- | :---------------------------------------------- | :--------- | :--------------------------------------------------------------------- |
+| `status`    | `'online' \| 'offline' \| 'busy'`               | `'online'` | Status color for the badge                                             |
+| `size`      | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl' \| 'xxl'` | `'md'`     | Sets the badge size; usually matches the parent avatar's `size`        |
+| `live`      | `boolean`                                       | `false`    | When `true`, sets `aria-live="polite"` so status changes are announced |
+| `ping`      | `boolean`                                       | `false`    | When `true`, renders a ping animation around the badge                 |
+| `className` | `string`                                        | -          | Additional CSS classes                                                 |
+
+| Data Attribute | Values                            | Description                        |
+| :------------- | :-------------------------------- | :--------------------------------- |
+| `data-slot`    | `'avatar-badge'`                  | Identifies the avatar badge        |
+| `data-status`  | `'online' \| 'offline' \| 'busy'` | Reflects the current `status` prop |
+
+### AvatarGroup
+
+Wraps a collection of avatars with an overlapping layout.
+
+| Prop        | Type              | Default | Description                                     |
+| :---------- | :---------------- | :------ | :---------------------------------------------- |
+| `className` | `string`          | -       | Additional CSS classes                          |
+| `children`  | `React.ReactNode` | -       | `<Avatar>` and/or `<AvatarGroupCount>` elements |
+
+| Data Attribute | Values           | Description                           |
+| :------------- | :--------------- | :------------------------------------ |
+| `data-slot`    | `'avatar-group'` | Identifies the avatar group container |
+
+### AvatarGroupCount
+
+Displays an overflow indicator (e.g. `5+`) inside an `<AvatarGroup>`.
+
+| Prop         | Type                   | Default | Description                                                                                        |
+| :----------- | :--------------------- | :------ | :------------------------------------------------------------------------------------------------- |
+| `size`       | `'xs' \| 'sm' \| 'md'` | `'md'`  | Sets the size of the count indicator                                                               |
+| `className`  | `string`               | -       | Additional CSS classes                                                                             |
+| `children`   | `React.ReactNode`      | -       | Overflow content (e.g. `5+`)                                                                       |
+| `aria-label` | `string`               | derived | When `children` is a string, the default label is `"${children} more"`. Pass a string to override. |
+
+| Data Attribute | Values                 | Description                          |
+| :------------- | :--------------------- | :----------------------------------- |
+| `data-slot`    | `'avatar-group-count'` | Identifies the group count indicator |
+| `data-size`    | `'xs' \| 'sm' \| 'md'` | Reflects the current `size` prop     |
+
+## Accessibility
+
+- **Accessible name**: Pass `alt` to `<AvatarImage>` to give the avatar a label. The label is announced separately from the status badge.
+- **Image alt text**: When the avatar stands alone, give `<AvatarImage>` a descriptive `alt`. When it sits next to a text label (e.g. inside a `<figure>`/`<figcaption>`), pass `alt=""` so it's treated as decorative.
+- **Status indicator**: The badge is announced as a separate `role="img"` with an `aria-label` of the current status (`online` / `offline` / `busy`). Color is reinforced with a shape glyph (a dash for offline, a minus for busy) so the indicator is not color-only. Pass `live` to make the badge announce status changes via `aria-live="polite"`.
+- **Fallback**: Initials are visually clear. When the image fails, you can pass `aria-label` to `<AvatarFallback>` to give the initials a name.
+- **Group semantics**: `<AvatarGroup>` renders as `role="group"`. Pass `aria-label` (e.g. `"Team members"`) to describe the collection. `<AvatarGroupCount>` derives an `aria-label` of `"${children} more"` by default and accepts an explicit `aria-label` override.
+- **Semantic HTML**: When pairing an avatar with a name/subtitle, wrap them in a `<figure>` with the text in a `<figcaption>`.
+
+---
+
+[⬆ Back to the ComponentX Catalog](../../CATALOG.md) · Powered by **ComponentX** — semantic, token-efficient components

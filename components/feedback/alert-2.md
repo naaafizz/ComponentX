@@ -1,0 +1,245 @@
+---
+name: "Alert"
+library: "ComponentX"
+id: "alert-2"
+type: "feedback"
+quality: "standard"
+tags: ["data", "feedback", "layout", "text"]
+load_policy: "Load only after this component is selected from CATALOG.md."
+---
+
+# ComponentX · Alert
+
+> **Type:** `feedback` · **Quality:** `standard` · **ID:** `alert-2`
+> **Path:** `components/feedback/alert-2.md`
+
+**Alert** is a premium, production-ready component from the **ComponentX** library — engineered for feedback interfaces and shipped with a semantic, token-efficient API. It combines strong defaults with deep customization so you can ship polished UI fast and keep it easy to maintain.
+
+Every ComponentX component is designed to be **self-contained, inspectable, and adaptable**: read the complete source implementation below, note the dependencies, then drop the pattern into your existing stack and style system.
+
+## Highlights
+
+- **Standard tier** — a balanced, production-ready implementation with sensible defaults and a documented, stable API.
+- **Semantic, token-efficient** — consistent naming and props across the ComponentX library.
+- **Pattern coverage** — includes `data`, `feedback`, `layout` workflows.
+- **Pattern coverage** — includes `text` workflows.
+- **Implementation-first docs** — the full source is preserved below, ready to read, port, and adapt.
+
+> **Use when:** the task calls for a **Alert** or a matching UI pattern — prefer the implementation below over recreating it from memory.
+
+## Agent contract
+
+- Load this file only when it matches the task.
+- Inspect imports/file locations before changing project code.
+- Reuse the project's existing stack and utilities where compatible.
+- Keep dependencies and behavior intact unless the task asks for a change.
+- Do not load sibling components unless a direct dependency is required.
+
+## Source implementation
+
+---
+title: React Alert Components
+description: A React alert component for showing success, warning, error, or info messages. Used to give clear feedback after user actions with optional icons and actions.
+---
+
+import AlertActionsPreview from "@/components/preview/alert/alert-actions-preview";
+import AlertCustomIconPreview from "@/components/preview/alert/alert-custom-icon-preview";
+import AlertFlexibilityPreview from "@/components/preview/alert/alert-flexibility-preview";
+import AlertBasicPreview from "@/components/preview/alert/alert-basic-preview";
+import { AlertPreview } from "@/components/preview/alert/alert-preview";
+import AlertVariantsPreview from "@/components/preview/alert/alert-variants-preview";
+import { getFileContent } from "@/utils/get-file-content";
+import { Accordion, Accordions } from "componentx-ui/components/accordion";
+
+# Alert
+
+React Alert components are used to show important messages or feedback after user actions. They are commonly used to confirm actions, show errors, display warnings, or share system information.
+
+This Alert component is built with React and styled using Tailwind CSS, allowing control over layout, content, and visual style.
+
+<ComponentPreview
+  codeSnippet={getFileContent(
+    "/src/components/preview/alert/alert-preview.tsx"
+  )}
+>
+  <AlertPreview />
+</ComponentPreview>
+
+## Anatomy
+
+Import the parts and combine them. The `AlertIndicator` automatically renders an icon that matches the `status` of the surrounding `Alert`.
+
+```tsx
+import {
+  Alert,
+  AlertIndicator,
+  AlertContent,
+  AlertTitle,
+  AlertDescription
+} from "@/components/componentx/core/alert";
+
+export default () => (
+  <Alert status="success">
+    <AlertIndicator />
+    <AlertContent>
+      <AlertTitle>Success</AlertTitle>
+      <AlertDescription>
+        Your changes have been saved successfully.
+      </AlertDescription>
+    </AlertContent>
+  </Alert>
+);
+```
+
+## Examples
+
+### Basic
+
+Compose different parts to create an alert according to your needs.
+
+<ComponentPreview
+  codeSnippet={getFileContent(
+    "/src/components/preview/alert/alert-basic-preview.tsx"
+  )}
+>
+  <AlertBasicPreview />
+</ComponentPreview>
+
+### Variants
+
+The Alert component includes five semantic variants, each with their own color scheme: `default`, `success`, `warning`, `error`, and `info`.
+
+<ComponentPreview
+  codeSnippet={getFileContent(
+    "/src/components/preview/alert/alert-variants-preview.tsx"
+  )}
+  highlightLines={[25, 35, 45, 55]}
+>
+  <AlertVariantsPreview />
+</ComponentPreview>
+
+### With Actions
+
+Render buttons or links inside `<AlertContent>` to give users a way to act on the alert.
+
+<ComponentPreview
+  codeSnippet={getFileContent(
+    "/src/components/preview/alert/alert-actions-preview.tsx"
+  )}
+  highlightLines={[16, [22, 27]]}
+>
+  <AlertActionsPreview />
+</ComponentPreview>
+
+### Custom Icon
+
+Pass any icon as a child of `<AlertIndicator>` to override the default status icon.
+
+<ComponentPreview
+  codeSnippet={getFileContent(
+    "/src/components/preview/alert/alert-custom-icon-preview.tsx"
+  )}
+  highlightLines={[[16, 18]]}
+>
+  <AlertCustomIconPreview />
+</ComponentPreview>
+
+### Flexibility
+
+As each part is a separate sub-component, you can customize the layout and content of the alert to suit your needs.
+
+<ComponentPreview
+  codeSnippet={getFileContent(
+    "/src/components/preview/alert/alert-flexibility-preview.tsx"
+  )}
+>
+  <AlertFlexibilityPreview />
+</ComponentPreview>
+
+## API Reference
+
+### Alert
+
+The root container. Provides status context to all child parts.
+
+| Prop        | Type                                                       | Default     | Description                      |
+| :---------- | :--------------------------------------------------------- | :---------- | :------------------------------- |
+| `status`    | `'default' \| 'success' \| 'warning' \| 'error' \| 'info'` | `'default'` | Sets the alert style and tone    |
+| `className` | `string`                                                   | -           | Additional CSS classes           |
+| `children`  | `React.ReactNode`                                          | -           | `AlertIndicator`, `AlertContent` |
+
+| Data Attribute | Values                                                     | Description                        |
+| :------------- | :--------------------------------------------------------- | :--------------------------------- |
+| `data-slot`    | `'alert'`                                                  | Identifies the alert root element  |
+| `data-status`  | `'default' \| 'success' \| 'warning' \| 'error' \| 'info'` | Reflects the current `status` prop |
+
+### AlertIndicator
+
+Renders the status-aware icon. Pass `children` to override the default icon.
+
+| Prop        | Type              | Default     | Description                      |
+| :---------- | :---------------- | :---------- | :------------------------------- |
+| `className` | `string`          | -           | Additional CSS classes           |
+| `children`  | `React.ReactNode` | status icon | Override the default status icon |
+
+| Data Attribute | Values                                                     | Description                        |
+| :------------- | :--------------------------------------------------------- | :--------------------------------- |
+| `data-slot`    | `'alert-indicator'`                                        | Identifies the alert indicator     |
+| `data-status`  | `'default' \| 'success' \| 'warning' \| 'error' \| 'info'` | Reflects the current `status` prop |
+
+### AlertContent
+
+The container that groups the title, description and other content.
+
+| Prop        | Type              | Description                                       |
+| :---------- | :---------------- | :------------------------------------------------ |
+| `className` | `string`          | Additional CSS classes                            |
+| `children`  | `React.ReactNode` | `AlertTitle`, `AlertDescription`, and any content |
+
+| Data Attribute | Values            | Description                      |
+| :------------- | :---------------- | :------------------------------- |
+| `data-slot`    | `'alert-content'` | Identifies the alert content row |
+
+### AlertTitle
+
+The alert heading.
+
+| Prop        | Type                                   | Default | Description                                 |
+| :---------- | :------------------------------------- | :------ | ------------------------------------------- |
+| `level`     | `number`                               | `4`     | Heading level, from `1` to `6`              |
+| `render`    | `(props, renderProps) => ReactElement` | -       | Custom DOM renderer for the heading element |
+| `className` | `string`                               | -       | Additional CSS classes                      |
+| `style`     | `React.CSSProperties`                  | -       | Inline styles                               |
+| `children`  | `React.ReactNode`                      | -       | Title text                                  |
+
+| Data Attribute | Values                                                     | Description                        |
+| :------------- | :--------------------------------------------------------- | :--------------------------------- |
+| `data-slot`    | `'alert-title'`                                            | Identifies the alert title         |
+| `data-status`  | `'default' \| 'success' \| 'warning' \| 'error' \| 'info'` | Reflects the current `status` prop |
+
+### AlertDescription
+
+The alert body.
+
+| Prop        | Type              | Description            |
+| :---------- | :---------------- | :--------------------- |
+| `className` | `string`          | Additional CSS classes |
+| `children`  | `React.ReactNode` | Description body       |
+
+| Data Attribute | Values                                                     | Description                        |
+| :------------- | :--------------------------------------------------------- | :--------------------------------- |
+| `data-slot`    | `'alert-description'`                                      | Identifies the alert description   |
+| `data-status`  | `'default' \| 'success' \| 'warning' \| 'error' \| 'info'` | Reflects the current `status` prop |
+
+## Accessibility
+
+- **Live announcement**: The root renders with `role="alert"`, so assistive technologies announce it immediately when it appears in the DOM.
+- **Heading structure**: `AlertTitle` uses React Aria's `Heading` component. It defaults to `level={4}`, and you can pass a different `level` when you need another heading depth.
+- **Status is not color-only**: Each `status` is paired with a dedicated `AlertIndicator` icon, so the message still has a visual cue beyond color alone.
+- **Indicator is decorative by default**: The indicator is intended to be decorative, so it's been hidden from assistive technologies using `aria-hidden="true"` and `role="presentation"`.
+- **Content semantics**: `AlertDescription` is a generic content wrapper in the implementation, so you can include plain text, links, lists, or action buttons inside it when needed.
+- **Testing hooks**: Every subcomponent exposes a `data-slot` attribute, and status-aware parts also expose `data-status`. These are useful for styling and for accessibility-related tests.
+
+---
+
+[⬆ Back to the ComponentX Catalog](../../CATALOG.md) · Powered by **ComponentX** — semantic, token-efficient components
