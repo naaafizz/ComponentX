@@ -80,8 +80,10 @@ The full discovery workflow lives in the **[Agent Skill](SKILL.md)**, and every 
 
 ## 🗂 What's inside
 
+In this repository, everything the agent needs lives in **`skill/`**:
+
 ```text
-~/.componentx/
+skill/
 ├── components/     417 components in 14 semantic folders
 │   ├── 3d/         3D, WebGL, and shader effects
 │   ├── form/       inputs, fields, and complete forms
@@ -90,6 +92,17 @@ The full discovery workflow lives in the **[Agent Skill](SKILL.md)**, and every 
 ├── Designs/        23 complete design themes (premium visual languages)
 ├── SKILL.md        the agent skill — discovery workflow
 ├── CATALOG.md      every component, one deep link per file
+└── README.md       the skill's own documentation
+```
+
+Installing flattens `skill/` into your machine — only the skill content, the CLI, and its metadata ever touch your disk (no installers, no build tools, no repo docs):
+
+```text
+~/.componentx/
+├── components/     the 14 semantic folders
+├── Designs/        the 23 themes
+├── SKILL.md · CATALOG.md · README.md
+├── componentx.json · MANIFEST.json
 └── bin/            the componentx CLI (zero dependencies)
 ```
 
@@ -98,7 +111,7 @@ The full discovery workflow lives in the **[Agent Skill](SKILL.md)**, and every 
 Adding components is a three-step loop:
 
 ```bash
-# 1. drop new .md files into components/<family>/ (or Designs/)
+# 1. drop new .md files into skill/components/<family>/ (or skill/Designs/)
 # 2. rebuild the catalog + manifest
 node _tools/build.mjs
 # 3. commit and push — users get it on their next `componentx update`

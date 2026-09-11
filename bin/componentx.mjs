@@ -87,6 +87,12 @@ function localize(rel) {
   return path.join(...rel.split("/"));
 }
 
+/* Where a manifest file lands inside the install dir. Older manifests had no
+ * `install` field and stored install-relative paths in `path` — handle both. */
+function installDest(file) {
+  return path.join(...(file.install ?? file.path).split("/"));
+}
+
 function sha256Bytes(buf) {
   return crypto.createHash("sha256").update(buf).digest().toString("hex");
 }
@@ -211,7 +217,7 @@ async function downloadManifestFiles(manifest, dir, repo, branch) {
   const special = {};
   const jobs = [];
   for (const file of manifest.files) {
-    const dest = path.join(dir, localize(file.path));
+    const dest = path.join(dir, installDest(file));
     if (file.path === "bin/componentx.mjs") {
       special.next = path.join(dir, ".update", "componentx.next.mjs");
       jobs.push({ file, dest: special.next, pending: true });
@@ -238,8 +244,8 @@ function diffManifests(local, remote) {
     const has = localMap.get(file.path);
     if (!has || has.sha256 !== file.sha256) toFetch.push(file);
   }
-  for (const p of localMap.keys()) {
-    if (!remoteMap.has(p)) toRemove.push(p);
+  for (const file of localMap.values()) {
+    if (!remoteMap.has(file.path)) toRemove.push(file);
   }
   return { toFetch, toRemove, remoteMap };
 }
@@ -248,7 +254,7 @@ function verifyLocalFiles(dir, manifest) {
   let okCount = 0,
     bad = 0;
   for (const file of manifest.files) {
-    const abs = path.join(dir, localize(file.path));
+    const abs = path.join(dir, installDest(file));
     if (fs.existsSync(abs) && sha256File(abs) === file.sha256) okCount += 1;
     else bad += 1;
   }
@@ -364,7 +370,13 @@ async function cmdInstall(args) {
       process.exit(1);
     }
     manifest = readJson(path.join(from, "MANIFEST.json"));
-    copyTree(from, dir, [".git", ".github", "node_modules", ".update", "_tools"]);
+    // copy only the install scope (skill content + CLI) — never the whole repo
+    for (const file of manifest.files) {
+      const src = path.join(from, ...file.path.split("/"));
+      const dest = path.join(dir, installDest(file));
+      ensureDir(path.dirname(dest));
+      fs.copyFileSync(src, dest);
+    }
   } else {
     say(`  resolving manifest ${repo}@${branch} …`);
     manifest = JSON.parse(await httpText(remoteManifestUrl(repo, branch)));
@@ -376,6 +388,7 @@ async function cmdInstall(args) {
       const staged = path.join(dir, ".update", "componentx.next.mjs");
       if (fs.existsSync(staged)) {
         fs.copyFileSync(staged, path.join(dir, "bin", "componentx.mjs"));
+        fs.rmSync(path.join(dir, ".update"), { recursive: true, force: true });
       }
     } catch (err) {
       await fsp.rm(dir, { recursive: true, force: true }).catch(() => {});
@@ -450,16 +463,19 @@ async function cmdUpdate(args) {
   }
   const bytes = toFetch.reduce((n, f) => n + (f.size ?? 0), 0);
   say(`  ${toFetch.length} changed/new · ${toRemove.length} removed · ${fmtBytes(bytes)}`);
-  await downloadManifestFiles(remote, dir, repo, branch);
 
-  for (const rel of toRemove) {
-    const abs = path.join(dir, localize(rel));
+  // Remove obsolete files BEFORE downloading: an older install may keep a file
+  // (e.g. a root-level README.md) at the same install path a new file maps to.
+  for (const file of toRemove) {
+    const abs = path.join(dir, installDest(file));
     try {
       if (fs.existsSync(abs)) fs.rmSync(abs, { force: true });
     } catch {
       /* keep going */
     }
   }
+  await downloadManifestFiles(remote, dir, repo, branch);
+
   if (fs.existsSync(path.join(dir, "components"))) {
     for (const family of fs.readdirSync(path.join(dir, "components"))) {
       try {

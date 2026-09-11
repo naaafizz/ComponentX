@@ -19,10 +19,11 @@ import crypto from "node:crypto";
 import { fileURLToPath } from "node:url";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-const COMPONENTS_DIR = path.join(ROOT, "components");
-const DESIGNS_DIR = path.join(ROOT, "Designs");
+const SKILL_DIR = path.join(ROOT, "skill");
+const COMPONENTS_DIR = path.join(SKILL_DIR, "components");
+const DESIGNS_DIR = path.join(SKILL_DIR, "Designs");
 const PACKAGE_JSON = path.join(ROOT, "componentx.json");
-const CATALOG_MD = path.join(ROOT, "CATALOG.md");
+const CATALOG_MD = path.join(SKILL_DIR, "CATALOG.md");
 const MANIFEST_JSON = path.join(ROOT, "MANIFEST.json");
 
 const FAMILY_FOCUS = {
@@ -42,18 +43,21 @@ const FAMILY_FOCUS = {
   text: "typography, text effects, and editors",
 };
 
-const RUNTIME_FILES = [
-  "README.md",
-  "SKILL.md",
-  "CATALOG.md",
-  "componentx.json",
-  "CHANGELOG.md",
-  "LICENSE",
-  "install.ps1",
-  "install.sh",
-  "bin/componentx.mjs",
-  "bin/componentx.cmd",
-  "bin/componentx",
+/*
+ * Files that ship in a user install. Each entry is [repoPath, installPath]:
+ * repoPath   — where the file lives in this repository (and its raw URL)
+ * installPath — where it lands inside ~/.componentx (skill/ is flattened)
+ * Everything else in the repo (installers, LICENSE, CHANGELOG, _tools, the
+ * root README) is repo-side only and never touches a user's machine.
+ */
+const INSTALL_FILES = [
+  ["skill/README.md", "README.md"],
+  ["skill/SKILL.md", "SKILL.md"],
+  ["skill/CATALOG.md", "CATALOG.md"],
+  ["componentx.json", "componentx.json"],
+  ["bin/componentx.mjs", "bin/componentx.mjs"],
+  ["bin/componentx.cmd", "bin/componentx.cmd"],
+  ["bin/componentx", "bin/componentx"],
 ];
 
 /* ------------------------------------------------------------------ helpers */
@@ -261,13 +265,14 @@ async function scanComponents() {
 
 async function collectManifestFiles(catalogSha, catalogSize) {
   const entries = [];
-  for (const file of RUNTIME_FILES) {
-    const abs = path.join(ROOT, file);
-    if (file === "CATALOG.md") {
+  const installPath = (repoRel) => (repoRel.startsWith("skill/") ? repoRel.slice("skill/".length) : repoRel);
+  for (const [repoPath, installRel] of INSTALL_FILES) {
+    const abs = path.join(ROOT, ...repoPath.split("/"));
+    if (repoPath === "skill/CATALOG.md") {
       // hash the freshly-rendered catalog, never the stale file on disk
-      entries.push({ path: normalizeRelative(abs), size: catalogSize, sha256: catalogSha });
+      entries.push({ path: repoPath, install: installRel, size: catalogSize, sha256: catalogSha });
     } else if (fs.existsSync(abs)) {
-      entries.push({ path: normalizeRelative(abs), size: fs.statSync(abs).size, sha256: sha256(abs) });
+      entries.push({ path: repoPath, install: installRel, size: fs.statSync(abs).size, sha256: sha256(abs) });
     }
   }
   for (const family of await fsp.readdir(COMPONENTS_DIR)) {
@@ -277,6 +282,7 @@ async function collectManifestFiles(catalogSha, catalogSize) {
       const fileAbs = path.join(abs, file);
       entries.push({
         path: normalizeRelative(fileAbs),
+        install: installPath(normalizeRelative(fileAbs)),
         size: fs.statSync(fileAbs).size,
         sha256: sha256(fileAbs),
       });
@@ -286,6 +292,7 @@ async function collectManifestFiles(catalogSha, catalogSize) {
     const fileAbs = path.join(DESIGNS_DIR, file);
     entries.push({
       path: normalizeRelative(fileAbs),
+      install: installPath(normalizeRelative(fileAbs)),
       size: fs.statSync(fileAbs).size,
       sha256: sha256(fileAbs),
     });
